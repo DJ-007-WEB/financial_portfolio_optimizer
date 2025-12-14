@@ -95,3 +95,11 @@ class HoldingItem(BaseModel):
 class HoldingsResponse(BaseModel):
     user_id: int
     holdings: List[HoldingItem]
+    
+    
+# -------------------------
+# PORTFOLIO OPTIMIZATION RESPONSE
+# -------------------------
+class PortfolioOptimizeRequest(BaseModel):
+    user_id: int
+    symbols: List[str]
