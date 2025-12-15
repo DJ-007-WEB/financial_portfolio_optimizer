@@ -5,7 +5,7 @@ import PortfolioResult from "./PortfolioResult";
 import { optimizePortfolio } from "../api/backend";
 import "./PortfolioSection.css";
 
-export default function PortfolioSection({ user }) {
+export default function PortfolioSection({ user, riskProfile }) {
   const [symbols, setSymbols] = useState("");
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -17,6 +17,16 @@ export default function PortfolioSection({ user }) {
       return;
     }
 
+    if (!user?.id) {
+      setError("Please log in again to optimize your portfolio");
+      return;
+    }
+
+    if (!riskProfile) {
+      setError("Complete the risk assessment before optimizing");
+      return;
+    }
+
     setLoading(true);
     setError("");
     setResult(null);
@@ -24,12 +34,13 @@ export default function PortfolioSection({ user }) {
     try {
       const symbolList = symbols
         .split(",")
-        .map((s) => s.trim().toUpperCase());
+        .map((s) => s.trim().toUpperCase())
+        .filter(Boolean);
 
       const data = await optimizePortfolio(user.id, symbolList);
       setResult(data);
     } catch (err) {
-      setError("Failed to optimize portfolio");
+      setError(err.message || "Failed to optimize portfolio");
     } finally {
       setLoading(false);
     }

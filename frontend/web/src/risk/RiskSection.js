@@ -4,12 +4,11 @@ import RiskResult from "./RiskResult";
 import { getRiskProfile } from "../api/backend";
 import "./RiskSection.css";
 
-export default function RiskSection({ user }) {
+export default function RiskSection({ user, onRiskChange }) {
   const [riskProfile, setRiskProfile] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // 🔒 Guard INSIDE the effect (this is the key fix)
     if (!user || !user.id) return;
 
     async function fetchRisk() {
@@ -19,21 +18,26 @@ export default function RiskSection({ user }) {
 
         if (data && data.category) {
           setRiskProfile(data);
+          onRiskChange?.(data);
         }
       } catch (err) {
-        console.log("No risk profile yet");
+        // no stored risk profile yet
       } finally {
         setLoading(false);
       }
     }
 
     fetchRisk();
-  }, [user]);
+  }, [user, onRiskChange]);
 
-  // Optional UI guard (safe, no hooks below this)
   if (!user) {
     return null;
   }
+
+  const handleSubmitted = (profile) => {
+    setRiskProfile(profile);
+    onRiskChange?.(profile);
+  };
 
   return (
     <div className="risk-section card">
@@ -50,11 +54,11 @@ export default function RiskSection({ user }) {
       {loading ? (
         <p className="risk-loading">Loading risk profile...</p>
       ) : riskProfile ? (
-        <RiskResult riskProfile={riskProfile} />
+        <RiskResult result={riskProfile} />
       ) : (
         <RiskForm
           user={user}
-          onSubmitted={(profile) => setRiskProfile(profile)}
+          onSubmitted={handleSubmitted}
         />
       )}
     </div>

@@ -3,7 +3,13 @@ import RiskResult from "./RiskResult";
 import { createRiskProfile } from "../api/backend";
 import "./RiskForm.css";
 
-export default function RiskForm({ user }) {
+const SCORE_MAP = {
+  Low: 3,
+  Medium: 6,
+  High: 9,
+};
+
+export default function RiskForm({ user, onSubmitted }) {
   const questions = [
     "How comfortable are you with market volatility?",
     "What is your investment horizon?",
@@ -30,14 +36,19 @@ export default function RiskForm({ user }) {
   };
 
   const handleSubmit = async () => {
+    if (!user?.id) return;
+
     setLoading(true);
     try {
-      const data = {
-        user_id: user.id,
-        answers,
-      };
-      const res = await createRiskProfile(data);
+      const payload = { user_id: user.id };
+      answers.forEach((ans, idx) => {
+        const score = SCORE_MAP[ans] ?? SCORE_MAP.Low;
+        payload[`q${idx + 1}`] = score;
+      });
+
+      const res = await createRiskProfile(payload);
       setResult(res);
+      onSubmitted?.(res);
     } catch (err) {
       alert("Failed to submit risk profile");
     } finally {

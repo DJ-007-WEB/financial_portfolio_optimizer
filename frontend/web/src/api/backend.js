@@ -64,7 +64,14 @@ export const optimizePortfolio = async (userId, symbols) => {
   if (!res.ok) {
     const errorText = await res.text();
     console.error("Optimize error:", errorText);
-    throw new Error("Portfolio optimization failed");
+    let message = "Portfolio optimization failed";
+    try {
+      const parsed = JSON.parse(errorText);
+      message = parsed.detail || message;
+    } catch {
+      message = errorText || message;
+    }
+    throw new Error(message);
   }
 
   return res.json();
