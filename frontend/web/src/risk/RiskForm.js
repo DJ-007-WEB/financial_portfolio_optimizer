@@ -1,65 +1,76 @@
 import { useState } from "react";
+import RiskResult from "./RiskResult";
 import { createRiskProfile } from "../api/backend";
+import "./RiskForm.css";
 
-function RiskForm({ userId, onSubmitted }) {
+export default function RiskForm({ user }) {
+  const questions = [
+    "How comfortable are you with market volatility?",
+    "What is your investment horizon?",
+    "How would you react to a market crash?",
+    "What is your income stability?",
+    "What percentage of savings are you investing?",
+    "Have you invested in equities before?",
+    "How often do you track investments?",
+    "What return do you expect?",
+    "How important is capital protection?",
+    "Would you accept short-term losses?"
+  ];
+
   const [answers, setAnswers] = useState(
-    Array(10).fill(0)
+    Array(questions.length).fill("Low")
   );
-  const [error, setError] = useState(null);
+  const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (index, value) => {
     const updated = [...answers];
-    updated[index] = Number(value);
+    updated[index] = value;
     setAnswers(updated);
   };
 
   const handleSubmit = async () => {
-    const payload = {
-      user_id: userId,
-      q1: answers[0],
-      q2: answers[1],
-      q3: answers[2],
-      q4: answers[3],
-      q5: answers[4],
-      q6: answers[5],
-      q7: answers[6],
-      q8: answers[7],
-      q9: answers[8],
-      q10: answers[9],
-    };
-
+    setLoading(true);
     try {
-      await createRiskProfile(payload);
-      onSubmitted();
-    } catch {
-      setError("Failed to submit risk profile");
+      const data = {
+        user_id: user.id,
+        answers,
+      };
+      const res = await createRiskProfile(data);
+      setResult(res);
+    } catch (err) {
+      alert("Failed to submit risk profile");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div>
-      <h3>Risk Assessment</h3>
+    <div className="risk-card">
+      <h2>Risk Assessment</h2>
+      <p className="subtitle">
+        Help us understand your risk-taking capacity
+      </p>
 
-      {answers.map((value, i) => (
-        <div key={i}>
-          <label>Question {i + 1}:</label>
+      {questions.map((q, i) => (
+        <div key={i} className="question">
+          <label>{q}</label>
           <select
-            value={value}
+            value={answers[i]}
             onChange={(e) => handleChange(i, e.target.value)}
           >
-            <option value={0}>Low</option>
-            <option value={1}>Medium</option>
-            <option value={2}>High</option>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
           </select>
         </div>
       ))}
 
-      <br />
-      <button onClick={handleSubmit}>Submit Risk Profile</button>
+      <button className="submit-btn" onClick={handleSubmit} disabled={loading}>
+        {loading ? "Submitting..." : "Submit Risk Profile"}
+      </button>
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {result && <RiskResult result={result} />}
     </div>
   );
 }
-
-export default RiskForm;

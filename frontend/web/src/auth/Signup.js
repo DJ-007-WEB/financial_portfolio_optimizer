@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { createUser } from "../api/backend";
 
-function Signup({ onSuccess }) {
+export default function Signup({ onLogin }) {
   const [name, setName] = useState("");
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
 
   const handleSignup = async () => {
+    setError("");
+
     if (!name.trim()) {
       setError("Name is required");
       return;
@@ -13,31 +15,28 @@ function Signup({ onSuccess }) {
 
     try {
       const user = await createUser(name);
-      localStorage.setItem("user_id", user.id);
-      onSuccess(user);
-    } catch (e) {
-      setError("Failed to create user");
+      onLogin(user); // ✅ FIXED
+    } catch (err) {
+      setError("Signup failed");
     }
   };
 
   return (
-    <div>
-      <h2>Signup</h2>
+    <>
+      <h2>Create Account</h2>
 
       <input
         type="text"
-        placeholder="Enter your name"
+        placeholder="Your name"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
 
-      <br /><br />
+      {error && <p className="error">{error}</p>}
 
-      <button onClick={handleSignup}>Create Account</button>
-
-      {error && <p style={{ color: "red" }}>{error}</p>}
-    </div>
+      <button className="primary-btn" onClick={handleSignup}>
+        Create Account
+      </button>
+    </>
   );
 }
-
-export default Signup;

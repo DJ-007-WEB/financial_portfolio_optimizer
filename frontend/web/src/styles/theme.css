@@ -1,0 +1,117 @@
+:root {
+  /* Backgrounds */
+  --bg: #f8fafc;              /* App background */
+  --panel: #ffffff;           /* Main panels */
+  --card: #ffffff;            /* Cards */
+
+  /* Text */
+  --text: #0f172a;            /* Primary text */
+  --muted: #64748b;           /* Secondary text */
+
+  /* Brand / Actions */
+  --primary: #2563eb;         /* Trust blue */
+  --primary-light: #e0e7ff;
+  --success: #16a34a;         /* Growth green */
+  --success-light: #dcfce7;
+  --danger: #dc2626;
+  --warning: #f59e0b;
+
+  /* UI */
+  --border: #e5e7eb;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  /* Effects */
+  --shadow-sm: 0 2px 6px rgba(0,0,0,0.05);
+  --shadow-md: 0 10px 25px rgba(0,0,0,0.08);
+  --shadow-lg: 0 20px 40px rgba(0,0,0,0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background: linear-gradient(
+    180deg,
+    #f8fafc 0%,
+    #eef2ff 100%
+  );
+  color: var(--text);
+}
+
+/* Global elements */
+
+h1, h2, h3, h4 {
+  margin: 0 0 10px 0;
+  font-weight: 700;
+}
+
+p {
+  margin: 0;
+  color: var(--muted);
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  cursor: pointer;
+}
+
+input, select {
+  font-family: inherit;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  padding: 10px 12px;
+  font-size: 14px;
+  outline: none;
+}
+
+input:focus, select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--primary-light);
+}
+
+/* Card utility */
+
+.card {
+  background: var(--card);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-md);
+}
+
+/* Primary button */
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  padding: 12px 18px;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Success badge */
+
+.badge-success {
+  background: var(--success-light);
+  color: var(--success);
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+/* Danger text */
+
+.text-danger {
+  color: var(--danger);
+}

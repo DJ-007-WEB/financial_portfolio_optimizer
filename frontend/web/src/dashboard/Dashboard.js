@@ -1,41 +1,51 @@
-import { useState } from "react";
-import RiskForm from "../risk/RiskForm";
-import RiskResult from "../risk/RiskResult";
-import SymbolInput from "../portfolio/SymbolInput";
-import PortfolioResult from "../portfolio/PortfolioResult";
+import "./Dashboard.css";
+import InfoCard from "../components/InfoCard";
+import PortfolioSection from "../portfolio/PortfolioSection";
+import RiskSection from "../risk/RiskSection";
 
-function Dashboard({ user }) {
-  const [riskSubmitted, setRiskSubmitted] = useState(false);
-  const [portfolioData, setPortfolioData] = useState(null);
-
+export default function Dashboard({ user }) {
   return (
-    <div>
-      <h2>Dashboard</h2>
-      <p>Welcome, {user.name}</p>
+    <div className="dashboard">
+      
+      {/* Header */}
+      <div className="dashboard-header">
+        <h2>Welcome, {user?.name || "Investor"} 👋</h2>
+        <p className="subtitle">
+          Track your risk profile and optimize your investments intelligently
+        </p>
+      </div>
 
-      {!riskSubmitted ? (
-        <RiskForm
-          userId={user.id}
-          onSubmitted={() => setRiskSubmitted(true)}
+      {/* Stats Cards */}
+      <div className="dashboard-cards">
+        <InfoCard
+          title="Risk Category"
+          value={user?.riskCategory || "Not Assessed"}
+          subtitle="Based on your answers"
         />
-      ) : (
-        <>
-          <RiskResult userId={user.id} />
 
-          <hr />
+        <InfoCard
+          title="Portfolio Status"
+          value="Active"
+          subtitle="Optimization ready"
+        />
 
-          <SymbolInput
-            userId={user.id}
-            onOptimized={setPortfolioData}
-          />
+        <InfoCard
+          title="AI Engine"
+          value="Enabled"
+          subtitle="Smart allocation"
+        />
+      </div>
 
-          {portfolioData && (
-            <PortfolioResult data={portfolioData} />
-          )}
-        </>
-      )}
+      {/* Risk Profile Section */}
+      <div className="dashboard-section">
+        <RiskSection />
+      </div>
+
+      {/* Portfolio Optimizer */}
+      <div className="dashboard-section">
+        <PortfolioSection />
+      </div>
+
     </div>
   );
 }
-
-export default Dashboard;

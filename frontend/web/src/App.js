@@ -1,27 +1,22 @@
 import { useState } from "react";
-import Signup from "./auth/Signup";
-import Login from "./auth/Login";
+
+import AuthPage from "./auth/AuthPage";
 import Dashboard from "./dashboard/Dashboard";
+import DashboardLayout from "./layout/DashboardLayout";
 
 function App() {
   const [user, setUser] = useState(null);
 
+  // If user is not logged in → show Auth
   if (!user) {
-    return (
-      <div style={{ padding: "20px" }}>
-        <h1>Financial Portfolio Optimizer</h1>
-
-        <Signup onSuccess={setUser} />
-        <hr />
-        <Login onSuccess={setUser} />
-      </div>
-    );
+    return <AuthPage onLogin={setUser} />;
   }
 
+  // Logged-in experience → wrapped inside layout
   return (
-    <div style={{ padding: "20px" }}>
+    <DashboardLayout>
       <Dashboard user={user} />
-    </div>
+    </DashboardLayout>
   );
 }
 

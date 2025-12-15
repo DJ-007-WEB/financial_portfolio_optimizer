@@ -1,38 +1,39 @@
-function PortfolioResult({ data }) {
-  if (!data || !data.recommended_weights) {
-    return <p>Loading portfolio results...</p>;
-  }
+export default function PortfolioResult({ result }) {
+  if (!result) return null;
+
+  const {
+    strategy_used,
+    recommended_weights,
+    expected_return,
+    expected_risk,
+    sharpe_ratio,
+  } = result;
 
   return (
-    <div style={{ marginTop: "20px" }}>
+    <div className="result-box">
       <h3>Optimization Result</h3>
 
       <p>
-        <strong>Strategy:</strong> {data.strategy_used}
+        <strong>Strategy:</strong> {strategy_used}
       </p>
 
       <h4>Recommended Allocation</h4>
       <ul>
-        {Object.entries(data.recommended_weights).map(
-          ([symbol, weight]) => (
-            <li key={symbol}>
-              {symbol}: {(weight * 100).toFixed(2)}%
-            </li>
-          )
-        )}
+        {recommended_weights &&
+          Object.entries(recommended_weights).map(
+            ([symbol, weight]) => (
+              <li key={symbol}>
+                {symbol}: {(weight * 100).toFixed(2)}%
+              </li>
+            )
+          )}
       </ul>
 
-      <p>
-        <strong>Expected Return:</strong> {data.expected_return}
-      </p>
-      <p>
-        <strong>Expected Risk:</strong> {data.expected_risk}
-      </p>
-      <p>
-        <strong>Sharpe Ratio:</strong> {data.sharpe_ratio}
-      </p>
+      <div className="metrics">
+        <p><strong>Expected Return:</strong> {expected_return}</p>
+        <p><strong>Expected Risk:</strong> {expected_risk}</p>
+        <p><strong>Sharpe Ratio:</strong> {sharpe_ratio}</p>
+      </div>
     </div>
   );
 }
-
-export default PortfolioResult;

@@ -1,23 +1,15 @@
-import { useEffect, useState } from "react";
-import { getRiskProfile } from "../api/backend";
-
-function RiskResult({ userId }) {
-  const [risk, setRisk] = useState(null);
-
-  useEffect(() => {
-    getRiskProfile(userId).then(setRisk);
-  }, [userId]);
-
-  if (!risk) return <p>Loading risk profile...</p>;
+export default function RiskResult({ result }) {
+  if (!result) return null;
 
   return (
-    <div>
+    <div className="risk-result">
       <h3>Your Risk Profile</h3>
-      <p>
-        Risk Category: <strong>{risk.category}</strong>
+      <p className={`risk-badge ${result.category.toLowerCase()}`}>
+        {result.category}
+      </p>
+      <p className="description">
+        This profile will be used to optimize your portfolio strategy.
       </p>
     </div>
   );
 }
-
-export default RiskResult;

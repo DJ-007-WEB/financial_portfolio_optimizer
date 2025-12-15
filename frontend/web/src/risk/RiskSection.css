@@ -1,0 +1,19 @@
+.risk-section {
+  margin-bottom: 32px;
+}
+
+.risk-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.risk-header h2 {
+  font-size: 20px;
+}
+
+.risk-loading {
+  color: var(--muted);
+  font-size: 14px;
+}

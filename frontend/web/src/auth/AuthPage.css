@@ -1,0 +1,73 @@
+.auth-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5faff, #e6f0ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.auth-card {
+  background: #ffffff;
+  width: 420px;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.app-title {
+  color: #1a3cff;
+  margin-bottom: 20px;
+}
+
+.auth-tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.auth-tabs button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  padding: 10px 20px;
+  cursor: pointer;
+  color: #666;
+  border-bottom: 2px solid transparent;
+}
+
+.auth-tabs .active {
+  color: #1a3cff;
+  border-bottom: 2px solid #1a3cff;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin: 12px 0;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 15px;
+}
+
+.primary-btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  background: #1a3cff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.primary-btn:hover {
+  background: #0f2edb;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+}
