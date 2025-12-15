@@ -1,7 +1,7 @@
 .sidebar {
   width: 240px;
-  background: #ffffff;
-  border-right: 1px solid #e5e7eb;
+  background: var(--panel);
+  border-right: 1px solid var(--border);
   padding: 30px 20px;
   min-height: 100vh;
 }
@@ -9,7 +9,7 @@
 .logo {
   font-size: 22px;
   font-weight: 700;
-  color: #1a3cff;
+  color: var(--primary);
   margin-bottom: 40px;
 }
 
@@ -19,21 +19,23 @@
   margin-bottom: 10px;
   border-radius: 10px;
   text-decoration: none;
-  color: #374151;
+  color: var(--muted);
   font-weight: 500;
   cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .sidebar nav a:hover {
-  background: #f1f5ff;
+  background: var(--primary-light);
+  color: var(--primary-dark);
 }
 
 .sidebar nav .active {
-  background: #e6edff;
-  color: #1a3cff;
+  background: var(--primary-light);
+  color: var(--primary);
 }
 
 .logout {
   margin-top: 40px;
-  color: #dc2626 !important;
+  color: var(--danger) !important;
 }

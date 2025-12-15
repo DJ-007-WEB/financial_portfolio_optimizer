@@ -5,13 +5,20 @@ from datetime import datetime
 
 # ---------- User schemas ----------
 class UserCreate(BaseModel):
+    user_id: str = Field(..., min_length=5, max_length=20)
     name: str = Field(..., example="Dhairya")
+    password: str = Field(..., min_length=4)
 
 class UserOut(BaseModel):
     id: int
+    user_id: str
     name: str
     class Config:
         orm_mode = True
+
+class LoginRequest(BaseModel):
+    user_id: str
+    password: str
 
 # ---------- Risk profile input ----------
 class RiskProfileIn(BaseModel):
@@ -94,9 +101,12 @@ class HoldingItem(BaseModel):
 
 class HoldingsResponse(BaseModel):
     user_id: int
+    balance: float
     holdings: List[HoldingItem]
-    
-    
+
+    class Config:
+        orm_mode = True
+
 # -------------------------
 # PORTFOLIO OPTIMIZATION RESPONSE
 # -------------------------

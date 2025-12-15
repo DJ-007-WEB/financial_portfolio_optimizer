@@ -1,14 +1,14 @@
 .portfolio-card {
-  background: white;
+  background: var(--panel);
   padding: 24px;
   border-radius: 14px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  box-shadow: 0 10px 30px rgba(6,95,70,0.08);
   max-width: 700px;
   margin-top: 30px;
 }
 
 .subtitle {
-  color: #555;
+  color: var(--muted);
   margin-bottom: 20px;
 }
 
@@ -26,7 +26,7 @@
   width: 100%;
   padding: 12px;
   border-radius: 10px;
-  border: 1px solid #cfd8dc;
+  border: 1px solid var(--border);
   font-size: 15px;
 }
 
@@ -34,7 +34,7 @@
   width: 100%;
   margin-top: 16px;
   padding: 14px;
-  background: #22c55e;
+  background: var(--primary);
   color: white;
   border: none;
   border-radius: 12px;
@@ -49,14 +49,14 @@
 }
 
 .error {
-  color: red;
+  color: var(--danger);
   margin-top: 10px;
 }
 
 .result-box {
   margin-top: 30px;
   padding: 20px;
-  background: #f9fafb;
+  background: #f0f8f4;
   border-radius: 12px;
 }
 

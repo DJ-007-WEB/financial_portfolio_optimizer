@@ -29,6 +29,7 @@ def get_wallet_details(user_id: int, db: Session = Depends(get_db)):
 
     return {
         "user_id": user_id,
+        "balance": wallet.balance,
         "holdings": holdings_list
     }
 

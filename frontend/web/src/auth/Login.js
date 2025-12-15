@@ -1,28 +1,24 @@
 import { useState } from "react";
-import { getUsers } from "../api/backend";
+import { loginUser } from "../api/backend";
 
 export default function Login({ onLogin }) {
   const [userId, setUserId] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
   const handleLogin = async () => {
     setError("");
 
+    if (!userId.trim() || !password.trim()) {
+      setError("Please enter user ID and password");
+      return;
+    }
+
     try {
-      const users = await getUsers(); // users is an ARRAY ✅
-
-      const user = users.find(
-        (u) => String(u.id) === userId.trim()
-      );
-
-      if (!user) {
-        setError("User not found");
-        return;
-      }
-
-      onLogin(user); // ✅ works now
+      const user = await loginUser(userId.trim(), password);
+      onLogin(user);
     } catch (err) {
-      setError("Login failed");
+      setError(err.message || "Login failed");
     }
   };
 
@@ -31,10 +27,17 @@ export default function Login({ onLogin }) {
       <h2>Welcome Back</h2>
 
       <input
-        type="number"
+        type="text"
         placeholder="Enter User ID"
         value={userId}
         onChange={(e) => setUserId(e.target.value)}
+      />
+
+      <input
+        type="password"
+        placeholder="Enter Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
       />
 
       {error && <p className="error">{error}</p>}

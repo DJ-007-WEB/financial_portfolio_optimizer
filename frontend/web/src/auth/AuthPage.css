@@ -1,6 +1,6 @@
 .auth-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5faff, #e6f0ff);
+  background: linear-gradient(135deg, #e6f5ec, #d0efe0);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,12 +12,12 @@
   width: 420px;
   padding: 40px;
   border-radius: 16px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 20px 40px rgba(6, 95, 70, 0.08);
   text-align: center;
 }
 
 .app-title {
-  color: #1a3cff;
+  color: var(--primary);
   margin-bottom: 20px;
 }
 
@@ -33,13 +33,13 @@
   font-size: 16px;
   padding: 10px 20px;
   cursor: pointer;
-  color: #666;
+  color: #4b5563;
   border-bottom: 2px solid transparent;
 }
 
 .auth-tabs .active {
-  color: #1a3cff;
-  border-bottom: 2px solid #1a3cff;
+  color: var(--primary);
+  border-bottom: 2px solid var(--primary);
 }
 
 input {
@@ -47,7 +47,7 @@ input {
   padding: 12px;
   margin: 12px 0;
   border-radius: 8px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border);
   font-size: 15px;
 }
 
@@ -55,7 +55,7 @@ input {
   width: 100%;
   padding: 12px;
   margin-top: 15px;
-  background: #1a3cff;
+  background: var(--primary);
   color: white;
   border: none;
   border-radius: 8px;
@@ -64,10 +64,10 @@ input {
 }
 
 .primary-btn:hover {
-  background: #0f2edb;
+  background: var(--primary-dark);
 }
 
 .error {
-  color: red;
+  color: var(--danger);
   font-size: 14px;
 }

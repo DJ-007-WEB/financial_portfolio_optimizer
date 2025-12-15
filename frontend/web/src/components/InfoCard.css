@@ -1,5 +1,5 @@
 .info-card {
-  background: white;
+  background: var(--panel);
   padding: 20px;
   border-radius: 14px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
@@ -9,18 +9,18 @@
 
 .info-title {
   font-size: 14px;
-  color: #6b7280;
+  color: var(--muted);
   margin-bottom: 8px;
 }
 
 .info-value {
   font-size: 24px;
   font-weight: 600;
-  color: #111827;
+  color: var(--text);
 }
 
 .info-subtitle {
   margin-top: 6px;
   font-size: 13px;
-  color: #10b981;
+  color: var(--primary-dark);
 }

@@ -13,6 +13,21 @@ from .routes import users, risk, market, wallet, portfolio
 # create DB tables from models
 Base.metadata.create_all(bind=engine) 
 
+# Ensure password column exists for legacy DBs (SQLite)
+try:
+    from sqlalchemy import text
+    with engine.connect() as conn:
+        cols = conn.execute(text("PRAGMA table_info(users);")).fetchall()
+        names = [c[1] for c in cols]
+        if "password_hash" not in names:
+            conn.execute(text("ALTER TABLE users ADD COLUMN password_hash TEXT"))
+        if "user_id" not in names:
+            conn.execute(text("ALTER TABLE users ADD COLUMN user_id TEXT UNIQUE"))
+            conn.commit()
+except Exception:
+    # fail-soft; app will raise if schema mismatch
+    pass
+
 
 app = FastAPI(title="Portfolio Optimizer (Dev)")
 

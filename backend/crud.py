@@ -3,10 +3,22 @@ from sqlalchemy.orm import Session
 from . import models, schemas
 from fastapi import HTTPException
 from .services.data_pipeline import load_symbol
+import hashlib
+import re
 
 # ---------- User ----------
 def create_user(db: Session, user_in: schemas.UserCreate):
-    user = models.User(name=user_in.name)
+    # Validate user_id pattern: lowercase letters, at least one digit, one special char, 5-20 chars
+    pattern = r"^(?=.*[0-9])(?=.*[!@#$%^&*._-])(?=.*[a-z])[a-z0-9!@#$%^&*._-]{5,20}$"
+    if not re.match(pattern, user_in.user_id):
+        raise HTTPException(status_code=400, detail="Invalid user_id format")
+
+    existing = db.query(models.User).filter(models.User.user_id == user_in.user_id).first()
+    if existing:
+        raise HTTPException(status_code=400, detail="User ID already exists")
+
+    password_hash = hashlib.sha256(user_in.password.encode()).hexdigest()
+    user = models.User(user_id=user_in.user_id, name=user_in.name, password_hash=password_hash)
     db.add(user)
     db.commit()
     db.refresh(user)
@@ -15,8 +27,24 @@ def create_user(db: Session, user_in: schemas.UserCreate):
 def get_user(db: Session, user_id: int):
     return db.query(models.User).filter(models.User.id == user_id).first()
 
+
+def get_user_by_code(db: Session, user_code: str):
+    return db.query(models.User).filter(models.User.user_id == user_code).first()
+
 def list_users(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.User).offset(skip).limit(limit).all()
+
+
+def verify_user(db: Session, user_id: int, password: str):
+    user = get_user_by_code(db, user_id)
+    if not user or not user.password_hash:
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+
+    incoming = hashlib.sha256(password.encode()).hexdigest()
+    if incoming != user.password_hash:
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+
+    return user
 
 # ---------- Risk Profile ----------
 def create_or_update_risk_profile(db: Session, rp_in: schemas.RiskProfileIn, score: int, category: str):

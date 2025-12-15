@@ -12,7 +12,9 @@ class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(String, unique=True, index=True)
     name = Column(String, index=True)
+    password_hash = Column(String, nullable=True)
 
     risk_profile = relationship("RiskProfile", back_populates="user", uselist=False)
     wallet = relationship("Wallet", back_populates="user", uselist=False)
